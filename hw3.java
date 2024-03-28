@@ -9,14 +9,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
-import javafx.application.Application; 
 import javafx.scene.Scene;
 import javafx.scene.control.Button; 
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.layout.*; 
 import javafx.stage.Stage;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
@@ -52,7 +48,7 @@ public class hw3 extends Application {
 			r.getChildren().add(tView);
 			r.getChildren().add(pView);
 			
-			intake.setOnAction(e->{
+			intake.setOnAction(e->{ //when clicked will go to the patient intake form
 								
 				StackPane r2 = new StackPane();
 				Label iTitle = new Label("Patient Intake Form");
@@ -65,7 +61,7 @@ public class hw3 extends Application {
 				secondStage.setScene(intakePage);
 				secondStage.show();
 				
-				Label fnameL = new Label("First Name:");
+				Label fnameL = new Label("First Name:"); //All labels 
 				r2.getChildren().add(fnameL);
 				fnameL.setTranslateX(-250);
 				fnameL.setTranslateY(-200);
@@ -123,20 +119,20 @@ public class hw3 extends Application {
 				insuranceID.setTranslateY(50);
 				insuranceID.setMaxWidth(300);
 				
-				Button save = new Button("Save");
+				Button save = new Button("Save");//save button
 				r2.getChildren().add(save);
 				save.setTranslateX(250);
 				save.setTranslateY(100);
 				
-				EventHandler<ActionEvent> saveEvent = new EventHandler<ActionEvent>(){
+				EventHandler<ActionEvent> saveEvent = new EventHandler<ActionEvent>(){ //what happens when save is pressed
 					public void handle(ActionEvent n)
 					{
 						try {
 
 						Random random = new Random();
 						int idDigit = random.nextInt(100000);
-						String fivedigitID = Integer.toString(idDigit);
-						if (allIDS.size() != 0)
+						String fivedigitID = Integer.toString(idDigit); //creates the 5-digit id
+						if (allIDS.size() != 0) //checks if the id is unique
 						{
 						
 						while (allIDS.indexOf(idDigit) != -1)
@@ -145,7 +141,7 @@ public class hw3 extends Application {
 							fivedigitID = Integer.toString(idDigit);
 						}
 						}
-						if (idDigit >= 1000 && idDigit <= 9999)
+						if (idDigit >= 1000 && idDigit <= 9999)  //makes all random numbers 5  digits
 						{
 							idDigit = idDigit * 10;
 							fivedigitID = Integer.toString(idDigit);
@@ -170,7 +166,7 @@ public class hw3 extends Application {
 
 						}
 						allIDS.add(idDigit);
-						FileWriter patient = new FileWriter(fivedigitID+"_PatientInfo.txt");
+						FileWriter patient = new FileWriter(fivedigitID+"_PatientInfo.txt"); //saves to a new file
 						patient.write(firstName.getText()+"\n"+lastName.getText()+"\n"+email.getText()+"\n"+phoneNumber.getText()+"\n"+healthHistory.getText()+"\n"+insuranceID.getText());
 						patient.close();
 						System.out.println(fivedigitID);
@@ -184,7 +180,7 @@ public class hw3 extends Application {
 			
 			});
 			
-			tView.setOnAction(e->{
+			tView.setOnAction(e->{  //when clicked will go to the CT tech view
 				
 				StackPane r3 = new StackPane();
 				Label iTitle = new Label("CT Tech View");
@@ -197,7 +193,7 @@ public class hw3 extends Application {
 				thirdStage.setScene(techPage);
 				thirdStage.show();
 				
-				Label pID = new Label("Patient ID:");
+				Label pID = new Label("Patient ID:"); //All labels
 				r3.getChildren().add(pID);
 				pID.setTranslateX(-250);
 				pID.setTranslateY(-250);
@@ -281,13 +277,13 @@ public class hw3 extends Application {
 						
 						if (patientID.getText().isEmpty() || totalCAC.getText().isEmpty() || lmScore.getText().isEmpty() || ladScore.getText().isEmpty() || lcxScore.getText().isEmpty() || rcaScore.getText().isEmpty() || pdaScore.getText().isEmpty()) {
 							error.setText("Error: One or more of your fields is not filled out");
-							}
+							}//checks to make sure that all forms are filled out
 						else {
 						FileWriter patient = new FileWriter(patientID.getText()+"CTResults.txt");
 						patient.write(totalCAC.getText()+"\n"+lmScore.getText()+"\n"+ladScore.getText()+"\n"+lcxScore.getText()+"\n"+rcaScore.getText()+"\n"+pdaScore.getText());
 						patient.close();
 						System.out.println(patientID.getText());
-							}
+							}//Creates the CT file and saves all of data
 						}
 						catch (IOException e)
 						{
@@ -299,7 +295,7 @@ public class hw3 extends Application {
 			
 			});
 			
-			pView.setOnAction(e->{
+			pView.setOnAction(e->{//when clicked will go to the patient id login
 				
 				StackPane r4 = new StackPane();
 				Label iTitle = new Label("Enter your ID");
@@ -325,7 +321,7 @@ public class hw3 extends Application {
 				r4.getChildren().add(Enter);
 				Enter.setTranslateY(-100);
 				
-				EventHandler<ActionEvent> enterEvent = new EventHandler<ActionEvent>()
+				EventHandler<ActionEvent> enterEvent = new EventHandler<ActionEvent>() //checks for a valid if
 				{
 					public void handle(ActionEvent n)
 					{
@@ -333,7 +329,7 @@ public class hw3 extends Application {
 						int i = 0;
 						for (i = 0; i < allIDS.size(); i++)
 						{
-							if (ID == allIDS.get(i))
+							if (ID == allIDS.get(i)) //if the right id will to to the patient view
 							{	
 								error.setText("");
 								
@@ -346,13 +342,13 @@ public class hw3 extends Application {
 								patientPage.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 								fourthStage.setScene(patientPage);
 								fourthStage.show();	
-								File patientInfo =  new File(login.getText()+"_PatientInfo.txt");
+								File patientInfo =  new File(login.getText()+"_PatientInfo.txt"); //reads data from the patient info file
 								Scanner infoReader = new Scanner(patientInfo);
 								String fName = infoReader.nextLine();
 								String lName = infoReader.nextLine();
 								infoReader.close();
 								
-								Label pTitle = new Label("Hello "+fName+" "+lName);
+								Label pTitle = new Label("Hello "+fName+" "+lName); //all labels
 								r5.getChildren().add(pTitle);
 								pTitle.setTranslateY(-250);
 								
@@ -391,7 +387,7 @@ public class hw3 extends Application {
 								PDAL.setTranslateY(50);
 								
 
-								File patientCT = new File(login.getText()+"CTResults.txt");
+								File patientCT = new File(login.getText()+"CTResults.txt"); //reads data from the CTResults file
 								if (patientCT.exists())
 								{
 								Scanner resultsReader = new Scanner(patientCT);
@@ -403,7 +399,7 @@ public class hw3 extends Application {
 								String rca  = resultsReader.nextLine();
 								String pda = resultsReader.nextLine();
 								
-								Label totResults = new Label(totCAC);
+								Label totResults = new Label(totCAC);//more labels
 								r5.getChildren().add(totResults);
 								totResults.setTranslateY(-200);
 								
@@ -428,7 +424,7 @@ public class hw3 extends Application {
 								pdaResults.setTranslateY(50);
 								resultsReader.close();
 								}
-								else {
+								else { //if there is no CT file will display this
 									Label noData = new Label("Your CT results are not available yet");
 									r5.getChildren().add(noData);
 									System.out.println("no data");
